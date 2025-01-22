@@ -26,7 +26,7 @@ var updateCaptures = function (node) {
   document.getElementById('black-captures').innerText = node.info.captures[JGO.BLACK];
   document.getElementById('white-captures').innerText = node.info.captures[JGO.WHITE];
 };
-var jrecord = new JGO.Record(13);
+var jrecord = new JGO.Record(19);
 var jboard = jrecord.jboard;
 var jsetup = new JGO.Setup(jboard, JGO.BOARD.largeWalnut);
 var player = JGO.BLACK; // next player
