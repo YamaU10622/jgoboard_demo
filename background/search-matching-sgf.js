@@ -17,12 +17,3 @@ if (targetIndex < targetMoves.length) {
     return false; 
 }
 }
-
-// 回転させたら一致するものを出力
-
-function searchMatchingSgfRotated(sgf, target) {
-  // SGFとターゲットを";"で分割して有効な棋譜の動きだけを抽出
-const sgfMoves = sgf.split(";").filter(move => move.includes("[") && move.includes("]"));
-
-
-}
