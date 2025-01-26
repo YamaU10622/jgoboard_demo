@@ -1,6 +1,6 @@
-function searchMatchingSgf(sgf, target) {
+function searchMatchingSgf(source, target) {
   // SGFとターゲットを";"で分割して有効な棋譜の動きだけを抽出
-const sgfMoves = sgf.split(";").filter(move => move.includes("[") && move.includes("]"));
+const sgfMoves = source.split(";").filter(move => move.includes("[") && move.includes("]"));
 const targetMoves = target.split(";").filter(move => move.includes("[") && move.includes("]"));
 
 // ターゲットが順序通りに含まれているかをチェック
@@ -14,6 +14,7 @@ for (const move of sgfMoves) {
     }
 }
 if (targetIndex < targetMoves.length) {
+    window.alert("該当するSGFが見つかりませんでした");
     return false; 
 }
 }

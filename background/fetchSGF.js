@@ -6,7 +6,7 @@ function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function fetchWithRetry(url, retries = 3, delayMs = 2000) {
+async function fetchWithRetry(url, retries = 3, delayMs = 1000) {
   for (let i = 0; i < retries; i++) {
     try {
       const response = await axios.get(url);
@@ -36,7 +36,9 @@ async function fetchSGF(startPage, endPage) {
 
       const links = [];
       $("a[href^='kifucontents.php?id=']").each((_, el) => {
-        links.push($(el).attr("href"));
+        if (!$(el).closest("div.popularKifu").length) {
+          links.push($(el).attr("href"));
+        }
       });
 
       console.log(`Found ${links.length} links on page ${page}`);
@@ -50,10 +52,18 @@ async function fetchSGF(startPage, endPage) {
 
         const sgf = $$("textarea#sgf").text().trim();
         if (sgf) {
-          var newsgf = { page, detailUrl, sgf };
-          sgfData.push(newsgf);
-          const fileName = `./data/sgf_data_.json`;
-          fs.writeFileSync(fileName, JSON.stringify(sgfData, null, 2), "utf-8");
+          const hash = Buffer.from(sgf).toString("base64");
+          if (!sgfData[hash]) {
+            sgfData[hash] = { detailUrl, sgf };
+            const outputFilePath = `./data/sgf_data.json`;
+            const fileContent = fs.readFileSync(outputFilePath, "utf-8");
+            currentData = fileContent.trim() ? JSON.parse(fileContent) : [];
+            currentData.push(sgfData[hash]);
+            fs.writeFileSync(outputFilePath, JSON.stringify(currentData, null, 2), "utf-8");
+            console.log(`New SGF added from ${detailUrl}`);
+          } else {
+            console.log(`Duplicate SGF skipped for ${detailUrl}`);
+          }
         } else {
           console.log(`No SGF data found for: ${detailUrl}`);
         }
@@ -63,17 +73,14 @@ async function fetchSGF(startPage, endPage) {
     }
 
     // サーバーへの負荷軽減のために待機
-    await delay(2000);
+    await delay(1000);
   }
-
-  // データを分割保存
-  
 }
 
 // 実行
 (async () => {
   const startPage = 1; // 開始ページ
-  const endPage = 2606; // 終了ページ（適宜調整）
+  const endPage = 2608; // 終了ページ
 
   await fetchSGF(startPage, endPage);
 })();

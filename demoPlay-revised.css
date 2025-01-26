@@ -1,0 +1,53 @@
+html {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  transform: scale(0.67);
+  transform-origin: top;
+}
+
+#input-area{
+  flex: 1;
+  height: 100%;
+  /* transform: scale(0.67); */
+}
+
+#output-area{
+  flex: 3;
+  height:100%;
+  /* transform: scale(0.67); */
+}
+
+#searching-results{
+  justify-content: start;
+}
+
+
+  /* #all-contents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    max-height: 100%;
+  } */
+
+  /* #input-board {
+    width: 80%;
+    height: auto;
+    background-color: #f0f0f0;
+    text-align: center;
+  } */
+
+  /* #searching-results{
+    text-align: left;
+  } */
+
+  /* button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    margin-top: 10px;
+  } */

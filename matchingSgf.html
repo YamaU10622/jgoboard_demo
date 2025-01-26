@@ -2,18 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>jGoBoard SGF Player Demo</title>
-  <link rel="stylesheet" href="demoSGF.css" type="text/css">
+  <title>マッチした棋譜のページ</title>
+  <link rel="stylesheet" href="matchingSgf.css" type="text/css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
 <body>
 <div id="main">
-
-<p id="menu" class="controls" style="width: 900px;">
-<input id="url" placeholder="enter SGF URL here" type="text"> <button onclick="loadURL($('#url').val());">Load URL</button>
-<input style="padding-left: 2em;" id="file" type="file"> <button onclick="loadFile();">Load file</button>
-</p>
 
 <div style="text-align: center; width: 100%">
 <div style="display: inline-block;">
@@ -40,8 +35,6 @@
     Black captures: <strong id="black_captures"></strong><br>
     White captures: <strong id="white_captures"></strong>
     </p>
-    <h2>Comments <a style="font-size: 50%" onclick="$('#comments').toggle()">toggle</a></h2>
-    <p id="comments"></p>
   </div>
 
   <div style="clear: both;"></div>
@@ -175,24 +168,30 @@ function loadSGF(sgf) {
   gotoMove = 0;
 }
 
-function loadURL(url) {
-  $.ajax('https://jgoboard.com/get_sgf.php', {
-    dataType: 'jsonp', data: {url: url}, complete: function(resp) {
-      loadSGF(resp.responseJSON);
-    }
-  });
-}
+window.onload = function() {
+  var matchasgfarray = localStorage.getItem("matchsgfarray");
+  var matchsgfarray = JSON.parse(matchasgfarray);
+  loadSGF(matchasgfarray[0]);
+};
 
-function loadFile() {
-  var files = document.getElementById("file").files;
+// function loadURL(url) {
+//   $.ajax('https://jgoboard.com/get_sgf.php', {
+//     dataType: 'jsonp', data: {url: url}, complete: function(resp) {
+//       loadSGF(resp.responseJSON);
+//     }
+//   });
+// }
+
+// function loadFile() {
+//   var files = document.getElementById("file").files;
 	
-	if(!files || files.length == 0)
-		alert("File loading either not supported or no file selected!");
+// 	if(!files || files.length == 0)
+// 		alert("File loading either not supported or no file selected!");
 		
-	var reader = new FileReader();
-	reader.onload = function() { loadSGF(reader.result); };
-	reader.readAsText(files[0], "UTF-8");
-}
+// 	var reader = new FileReader();
+// 	reader.onload = function() { loadSGF(reader.result); };
+// 	reader.readAsText(files[0], "UTF-8");
+// }
 </script>
 
 </div>
